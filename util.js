@@ -73,3 +73,47 @@ const optionsThrottled = (fn, wait, options) => {
     };
     return throttled;
 }
+
+
+// //ES6findIndex
+// const myFindIndex = (arr, fn, context) => {
+//     const len = arr.length
+//     for (let i = 0; i < len; i++) {
+//         if (fn.call(context, arr[i], i, arr)) return i;
+//     }
+//     return -1;
+// }
+
+// //testcase
+// console.log(myFindIndex([1, 2, 3, 4, 5], (item, i, arr) => {
+//     if (item == 5) return true;
+// }))
+
+
+// //ES6 findLastIndex
+// const myFindLastIndex = (arr,fn,context)=>{
+//     const len = arr.length;
+//     for(let i = len-1;i>=0;i--){
+//         if(fn.call(context,arr[i],i,arr)) return i;
+//     }
+//     return -1;
+// }
+
+/**
+ * @description 通过参数para来实现正序遍历或倒序遍历
+ * @param {指定搜索正序反序 1||-1} para 
+ * @returns 
+ */
+const IndexFinder = (para) => {
+    return function(arr, fn, context) {
+        let len = arr.length;
+        let index = para > 0 ? 0 : len - 1;
+        for (index >= 0 && index < length; index += para;) {
+            if (fn.call(context, arr[index], index, arr)) return index;
+        }
+        return -1;
+    }
+}
+
+const myFindIndex = IndexFinder(1);
+const myFindLastIndex = IndexFinder(-1);

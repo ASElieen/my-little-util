@@ -77,6 +77,10 @@ const debounce = (fn,wait,imme){
 }
 ```
 
+
+
+
+
 ## 节流 Throttle
 
 **简单实现**
@@ -192,5 +196,65 @@ const optionsThrottled = (fn, wait, options) => {
     };
     return throttled;
 }
+```
+
+
+
+
+
+## findIndex，findLastIndex
+
+遍历一遍返回需要下标即可
+
+```javascript
+//ES6findIndex
+const myFindIndex = (arr, fn, context) => {
+    const len = arr.length
+    for (let i = 0; i < len; i++) {
+        if (fn.call(context, arr[i], i, arr)) return i;
+    }
+    return -1;
+}
+
+//ES6 findLastIndex
+const myFindLastIndex = (arr,fn,context)=>{
+    const len = arr.length;
+    for(let i = len-1;i>=0;i--){
+        if(fn.call(context,arr[i],i,arr)) return i;
+    }
+    return -1;
+}
+
+//testcase
+console.log(myFindIndex([1, 2, 3, 4, 5], (item, i, arr) => {
+    if (item == 5) return true;
+}))
+
+
+```
+
+### 提取重合部分并合并
+
+通过传入的参数para来确定是正序遍历还是倒序遍历。myFindIndex()和myFindLastIndex()传参和上方testcase相同。
+
+```javascript
+/**
+ * @description 通过参数para来实现正序遍历或倒序遍历
+ * @param {指定搜索正序反序 1||-1} para 
+ * @returns 
+ */
+const IndexFinder = (para) => {
+    return function(arr, fn, context) {
+        let len = arr.length;
+        let index = para > 0 ? 0 : len - 1;
+        for (index >= 0 && index < length; index += para;) {
+            if (fn.call(context, arr[index], index, arr)) return index;
+        }
+        return -1;
+    }
+}
+
+const myFindIndex = IndexFinder(1);
+const myFindLastIndex = IndexFinder(-1);
 ```
 
